@@ -51,7 +51,7 @@ class RedirectView(CheckoutSessionMixin, RedirectView):
     # Setting to distinguish if the site has already collected a shipping
     # address.  This is False when redirecting to PayPal straight from the
     # basket page but True when redirecting from checkout.
-    as_payment_method = False
+    as_payment_method = True
 
     def get_redirect_url(self, **kwargs):
         try:
@@ -308,7 +308,7 @@ class SuccessResponseView(PaymentDetailsView):
                         amount_debited=confirm_txn.amount,
                         reference=confirm_txn.token)
         self.add_payment_source(source)
-        self.add_payment_event('Settled', confirm_txn.amount,
+        self.add_payment_event('Paid', confirm_txn.amount,
                                reference=confirm_txn.correlation_id)
 
     def get_shipping_address(self, basket):
